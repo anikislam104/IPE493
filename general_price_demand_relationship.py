@@ -51,10 +51,47 @@ def demand_for_max_total_profit(a,b,cv):
     return demand
 
 def demands_for_break_even(a,b,cv,Cf):
-    D1 = -(a - cv) / (2 * b) + np.sqrt((a - cv)**2 / (4 * b**2) + Cf / b)
-    D2 = -(a - cv) / (2 * b) - np.sqrt((a - cv)**2 / (4 * b**2) + Cf / b)
+    D1 = (a - cv) / (2 * b) + np.sqrt((a - cv)**2 - 4 * b * Cf) / (2 * b)
+    D2 = (a - cv) / (2 * b) - np.sqrt((a - cv)**2 - 4 * b * Cf) / (2 * b)
     return D1,D2
 
+def take_input_for_example_3():
+    fixed_cost = input("Enter the fixed cost: ")
+    variable_cost_per_unit = input("Enter the variable cost per unit: ")
+    a = input("Enter the value of a: ")
+    b = input("Enter the value of b: ")
+    #convert to float
+    fixed_cost = float(fixed_cost)
+    variable_cost_per_unit = float(variable_cost_per_unit)
+    a = float(a)
+    b = float(b)
+    return fixed_cost,variable_cost_per_unit,a,b
 
+def example_3a():
+    fixed_cost,variable_cost_per_unit,a,b = take_input_for_example_3()
 
-# plot_revenue_vs_demand_graph(100,1)
+    optimal_demand = demand_for_max_total_profit(a,b,variable_cost_per_unit)
+    print("The optimal demand is", optimal_demand)
+
+    total_revenue = total_revenue_function(a,b,optimal_demand)
+    print("The total revenue is", total_revenue)
+    total_cost = total_cost_function(variable_cost_per_unit,fixed_cost,optimal_demand)
+    print("The total cost is", total_cost)
+    profit = total_revenue - total_cost
+    print("The profit is", profit)
+
+    if total_revenue > total_cost:
+        print("Profit occurs at the optimal demand")
+    elif total_revenue == total_cost:
+        print("Break even occurs at the optimal demand")
+    else:
+        print("Loss occurs at the optimal demand")
+
+# example_3a()
+
+def example_3b():
+    fixed_cost,variable_cost_per_unit,a,b = take_input_for_example_3()
+    D1,D2 = demands_for_break_even(a,b,variable_cost_per_unit,fixed_cost)
+    print("The break even demands are", D1, "and", D2)
+
+example_3b()
